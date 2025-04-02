@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FinDash</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+</head>
+<body class="dashboard-page" data-theme="light">
+    <div class="dashboard-container">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>FinDash</h1>
+                <button id="sidebarToggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="https://ui-avatars.com/api/?name=User&background=4A6FA5&color=fff" alt="User Avatar" id="userAvatar">
+                </div>
+                <div class="user-info">
+                    <h3 id="userName">Welcome</h3>
+                    <p id="userEmail">user@example.com</p>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="#overview" data-section="overview">
+                            <i class="fas fa-home nav-icon"></i>
+                            <span class="nav-text">Overview</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#expenses" data-section="expenses">
+                            <i class="fas fa-chart-pie nav-icon"></i>
+                            <span class="nav-text">Expenses</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#budget" data-section="budget">
+                            <i class="fas fa-piggy-bank nav-icon"></i>
+                            <span class="nav-text">Budget</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#investments" data-section="investments">
+                            <i class="fas fa-chart-line nav-icon"></i>
+                            <span class="nav-text">Investments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#bills" data-section="bills">
+                            <i class="fas fa-file-invoice-dollar nav-icon"></i>
+                            <span class="nav-text">Bills</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings" data-section="settings">
+                            <i class="fas fa-cog nav-icon"></i>
+                            <span class="nav-text">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt btn-icon"></i>
+                    <span class="btn-text">Logout</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="header-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="notifications">
+                        <button class="notification-btn" id="notificationToggle">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <div class="notification-panel" id="notificationPanel">
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                <button class="mark-read">Mark all as read</button>
+                            </div>
+                            <div class="notification-list" id="notificationList">
+                                <div class="notification-item">
+                                    <i class="fas fa-exclamation-circle warning"></i>
+                                    <div class="notification-content">
+                                        <p>You've exceeded your food budget by 8%</p>
+                                        <span>2 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <i class="fas fa-check-circle success"></i>
+                                    <div class="notification-content">
+                                        <p>Salary received: $4,500</p>
+                                        <span>Yesterday</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <i class="fas fa-info-circle info"></i>
+                                    <div class="notification-content">
+                                        <p>Utility bill due in 3 days</p>
+                                        <span>2 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#" class="view-all">View All</a>
+                        </div>
+                    </div>
+                    <div class="user-menu">
+                        <button class="user-menu-btn" id="userDropdown">
+                            <img src="https://ui-avatars.com/api/?name=User&background=4A6FA5&color=fff" alt="User Avatar" id="headerUserAvatar">
+                            <span id="headerUserName">User</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-menu-dropdown" id="userMenu">
+                            <ul>
+                                <li><a href="#profile"><i class="fas fa-user"></i> Profile</a></li>
+                                <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
+                                <li><a href="#" id="headerLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Dashboard Sections -->
+            <div class="dashboard-sections">
+                <!-- Overview Section -->
+                <section id="overview" class="dashboard-section active">
+                    <div class="section-header">
+                        <h2>Financial Overview</h2>
+                        <div class="period-selector">
+                            <button data-period="day">Day</button>
+                            <button data-period="week">Week</button>
+                            <button data-period="month" class="active">Month</button>
+                            <button data-period="year">Year</button>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-cards">
+                        <div class="stat-card" id="totalBalance">
+                            <div class="stat-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>Total Balance</h3>
+                                <p class="stat-value">$0.00</p>
+                                <p class="stat-change positive">0% from last period</p>
+                            </div>
+                        </div>
+                        <div class="stat-card" id="totalIncome">
+                            <div class="stat-icon">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>Income</h3>
+                                <p class="stat-value">$0.00</p>
+                                <p class="stat-change positive">0% from last period</p>
+                            </div>
+                        </div>
+                        <div class="stat-card" id="totalExpenses">
+                            <div class="stat-icon">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>Expenses</h3>
+                                <p class="stat-value">$0.00</p>
+                                <p class="stat-change negative">0% from last period</p>
+                            </div>
+                        </div>
+                        <div class="stat-card" id="savings">
+                            <div class="stat-icon">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>Savings</h3>
+                                <p class="stat-value">$0.00</p>
+                                <p class="stat-change positive">0% from last period</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <div class="card-header">
+                                <h3>Income vs Expenses</h3>
+                                <div class="card-actions">
+                                    <button class="btn-card-action"><i class="fas fa-ellipsis-v"></i></button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="incomeExpenseChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <div class="card-header">
+                                <h3>Expense Breakdown</h3>
+                                <div class="card-actions">
+                                    <button class="btn-card-action"><i class="fas fa-ellipsis-v"></i></button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="expenseBreakdownChart"></canvas>
+                            </div>
+                            <div class="expense-breakdown-list" id="expenseBreakdownList">
+                                <!-- Will be populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <div class="card-header">
+                                <h3>Budget Status</h3>
+                                <div class="card-actions">
+                                    <button class="btn-card-action"><i class="fas fa-ellipsis-v"></i></button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="budgetChart"></canvas>
+                            </div>
+                            <div class="budget-progress-list" id="budgetProgressList">
+                                <!-- Will be populated by JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <div class="card-header">
+                                <h3>Recent Transactions</h3>
+                                <div class="card-actions">
+                                    <a href="#" class="view-all">View All</a>
+                                </div>
+                            </div>
+                            <div class="transactions-list" id="recentTransactionsList">
+                                <!-- Will be populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Other sections will be displayed when clicked -->
+                <section id="expenses" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Expenses</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Expenses content will go here.</p>
+                    </div>
+                </section>
+                
+                <section id="budget" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Budget</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Budget content will go here.</p>
+                    </div>
+                </section>
+                
+                <section id="investments" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Investments</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Investments content will go here.</p>
+                    </div>
+                </section>
+                
+                <section id="bills" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Bills</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Bills content will go here.</p>
+                    </div>
+                </section>
+                
+                <section id="settings" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Settings</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Settings content will go here.</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Notification container -->
+    <div class="notification-container" id="notificationContainer"></div>
+    
+    <!-- Load JavaScript files -->
+    <script src="js/storage.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

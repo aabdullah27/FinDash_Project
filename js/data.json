@@ -1,0 +1,141 @@
+{
+  "categories": {
+    "income": ["Salary", "Freelance", "Investments", "Gifts", "Other Income"],
+    "expense": ["Housing", "Food", "Transportation", "Utilities", "Entertainment", "Healthcare", "Education", "Shopping", "Personal Care", "Debt", "Savings", "Other Expenses"]
+  },
+  "demoUser": {
+    "id": "demo123",
+    "name": "Demo User",
+    "email": "demo@example.com",
+    "password": "demo123"
+  },
+  "demoTransactions": [
+    {
+      "id": "t1",
+      "type": "income",
+      "category": "Salary",
+      "amount": 4500,
+      "date": "2025-03-01",
+      "description": "Monthly Salary"
+    },
+    {
+      "id": "t2",
+      "type": "expense",
+      "category": "Housing",
+      "amount": 1200,
+      "date": "2025-03-05",
+      "description": "Rent Payment"
+    },
+    {
+      "id": "t3",
+      "type": "expense",
+      "category": "Food",
+      "amount": 210.50,
+      "date": "2025-03-10",
+      "description": "Grocery Shopping"
+    },
+    {
+      "id": "t4",
+      "type": "expense",
+      "category": "Utilities",
+      "amount": 145.30,
+      "date": "2025-03-15",
+      "description": "Electricity Bill"
+    },
+    {
+      "id": "t5",
+      "type": "expense",
+      "category": "Entertainment",
+      "amount": 85.20,
+      "date": "2025-03-18",
+      "description": "Movie and Dinner"
+    },
+    {
+      "id": "t6",
+      "type": "income",
+      "category": "Freelance",
+      "amount": 850,
+      "date": "2025-03-20",
+      "description": "Website Development Project"
+    },
+    {
+      "id": "t7",
+      "type": "expense",
+      "category": "Transportation",
+      "amount": 120,
+      "date": "2025-03-22",
+      "description": "Car Maintenance"
+    },
+    {
+      "id": "t8",
+      "type": "expense",
+      "category": "Healthcare",
+      "amount": 75,
+      "date": "2025-03-25",
+      "description": "Pharmacy"
+    },
+    {
+      "id": "t9",
+      "type": "income",
+      "category": "Investments",
+      "amount": 320,
+      "date": "2025-03-27",
+      "description": "Dividend Payment"
+    },
+    {
+      "id": "t10",
+      "type": "expense",
+      "category": "Shopping",
+      "amount": 250,
+      "date": "2025-03-30",
+      "description": "New Clothes"
+    }
+  ],
+  "demoBudget": {
+    "total": 4850,
+    "categories": {
+      "Housing": 1300,
+      "Food": 600,
+      "Transportation": 500,
+      "Utilities": 300,
+      "Entertainment": 300,
+      "Healthcare": 200,
+      "Shopping": 400,
+      "Personal Care": 100,
+      "Education": 150,
+      "Debt": 0,
+      "Savings": 800,
+      "Other Expenses": 200
+    }
+  },
+  "demoInvestments": [
+    {
+      "id": "i1",
+      "name": "Stocks",
+      "category": "Tech Sector",
+      "value": 5200,
+      "change": 12.3
+    },
+    {
+      "id": "i2",
+      "name": "Bonds",
+      "category": "Government",
+      "value": 3800,
+      "change": 3.5
+    },
+    {
+      "id": "i3",
+      "name": "Real Estate",
+      "category": "REIT",
+      "value": 2500,
+      "change": -2.1
+    },
+    {
+      "id": "i4",
+      "name": "Crypto",
+      "category": "Bitcoin, Ethereum",
+      "value": 1200,
+      "change": 22.7
+    }
+  ]
+}
