@@ -32,27 +32,38 @@ document.addEventListener('DOMContentLoaded', function() {
  * Initialize storage with data from JSON
  */
 function initializeStorage() {
+    console.log('Initializing storage with data from JSON');
+    
     // Initialize categories if not already set
     if (!StorageUtil.getCategories() || Object.keys(StorageUtil.getCategories()).length === 0) {
         StorageUtil.setItem('categories', appData.categories);
+        console.log('Categories initialized');
     }
     
     // Initialize demo user if not already set
     const users = StorageUtil.getItem('users') || [];
+    console.log('Current users:', users.length);
     
     if (!users.some(user => user.email === 'demo@example.com')) {
+        console.log('Adding demo user');
         // Add demo user to users array
         users.push(appData.demoUser);
         StorageUtil.setItem('users', users);
         
-        // Initialize demo transactions
-        StorageUtil.setItem(`transactions_${appData.demoUser.id}`, appData.demoTransactions);
-        
-        // Initialize demo budget
-        StorageUtil.setItem(`budget_${appData.demoUser.id}`, appData.demoBudget);
-        
-        // Initialize demo investments
-        StorageUtil.setItem(`investments_${appData.demoUser.id}`, appData.demoInvestments);
+        // Initialize demo data for the demo user
+        StorageUtil.initializeDemoData(appData.demoUser.id);
+        console.log('Demo user data initialized');
+    } else {
+        console.log('Demo user already exists');
+        // Make sure demo user has data
+        const demoUser = users.find(user => user.email === 'demo@example.com');
+        if (demoUser) {
+            const transactions = StorageUtil.getItem(`transactions_${demoUser.id}`);
+            if (!transactions || transactions.length === 0) {
+                console.log('Reinitializing demo data');
+                StorageUtil.initializeDemoData(demoUser.id);
+            }
+        }
     }
 }
 
@@ -162,6 +173,7 @@ function setupEventListeners() {
  */
 function handleLogin(e) {
     e.preventDefault();
+    console.log('Login form submitted');
     
     // Get form values
     const email = document.getElementById('loginEmail').value;
@@ -176,20 +188,23 @@ function handleLogin(e) {
     
     // Get users from storage
     const users = StorageUtil.getItem('users') || [];
+    console.log(`Found ${users.length} users in storage`);
     
     // Find user with matching email
     const user = users.find(u => u.email === email);
     
     // Check if user exists and password matches
     if (!user) {
-        showError('loginError', 'User not found');
+        showError('loginError', 'User not found. Please check your email or sign up.');
         return;
     }
     
     if (user.password !== password) {
-        showError('loginError', 'Incorrect password');
+        showError('loginError', 'Incorrect password. Please try again.');
         return;
     }
+    
+    console.log('Login successful for user:', user.email);
     
     // Set remember me flag
     user.rememberMe = rememberMe;
@@ -198,10 +213,18 @@ function handleLogin(e) {
     const updatedUsers = users.map(u => u.id === user.id ? user : u);
     StorageUtil.setItem('users', updatedUsers);
     
+    // Check if user has data, if not initialize it
+    const userData = StorageUtil.getUserData(user.id);
+    if (!userData || !userData.transactions || userData.transactions.length === 0) {
+        console.log('Initializing data for user:', user.id);
+        StorageUtil.initializeDemoData(user.id);
+    }
+    
     // Set current user
     StorageUtil.setCurrentUser(user);
     
     // Redirect to dashboard
+    console.log('Redirecting to dashboard');
     window.location.href = 'dashboard.html';
 }
 
@@ -211,6 +234,7 @@ function handleLogin(e) {
  */
 function handleRegister(e) {
     e.preventDefault();
+    console.log('Register form submitted');
     
     // Get form values
     const name = document.getElementById('registerName').value;
@@ -229,12 +253,25 @@ function handleRegister(e) {
         return;
     }
     
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showError('registerError', 'Please enter a valid email address');
+        return;
+    }
+    
+    // Password strength validation (at least 6 characters)
+    if (password.length < 6) {
+        showError('registerError', 'Password must be at least 6 characters long');
+        return;
+    }
+    
     // Get users from storage
     const users = StorageUtil.getItem('users') || [];
     
     // Check if email already exists
     if (users.some(u => u.email === email)) {
-        showError('registerError', 'Email already registered');
+        showError('registerError', 'Email already registered. Please log in instead.');
         return;
     }
     
@@ -248,17 +285,21 @@ function handleRegister(e) {
         isDemo: false
     };
     
+    console.log('Creating new user:', newUser.email);
+    
     // Add user to storage
     users.push(newUser);
     StorageUtil.setItem('users', users);
     
-    // Initialize user data
-    initializeUserData(newUser.id);
+    // Initialize user data with demo data for better first-time experience
+    console.log('Initializing data for new user');
+    StorageUtil.initializeDemoData(newUser.id);
     
     // Set current user
     StorageUtil.setCurrentUser(newUser);
     
     // Redirect to dashboard
+    console.log('Redirecting to dashboard');
     window.location.href = 'dashboard.html';
 }
 
@@ -300,20 +341,15 @@ function handleLogout() {
  * @param {string} userId - User ID
  */
 function initializeUserData(userId) {
-    // Initialize transactions
-    StorageUtil.setItem(`transactions_${userId}`, []);
+    console.log(`Initializing data for user: ${userId}`);
     
-    // Initialize budget
-    StorageUtil.setItem(`budget_${userId}`, {
-        total: 0,
-        categories: {}
-    });
-    
-    // Initialize investments
-    StorageUtil.setItem(`investments_${userId}`, []);
+    // Initialize transactions with demo data for better first-time experience
+    StorageUtil.initializeDemoData(userId);
     
     // Initialize categories (use default categories)
     StorageUtil.setItem(`categories_${userId}`, appData.categories);
+    
+    console.log('User data initialization complete');
 }
 
 /**

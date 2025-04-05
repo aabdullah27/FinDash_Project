@@ -85,71 +85,89 @@
         
         <!-- Main Content -->
         <main class="main-content">
-            <header class="dashboard-header">
-                <div class="header-search">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
+            <!-- Fixed Top Navbar -->
+            <nav class="navbar">
+                <div class="navbar-left">
+                    <form class="search-form">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Search..." aria-label="Search">
+                    </form>
                 </div>
                 
-                <div class="header-actions">
-                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+                <div class="navbar-right">
+                    <button id="themeToggle" class="theme-toggle" aria-label="Toggle Theme">
                         <i class="fas fa-moon"></i>
                     </button>
-                    <div class="notifications">
-                        <button class="notification-btn" id="notificationToggle">
-                            <i class="fas fa-bell"></i>
-                            <span class="notification-badge">3</span>
-                        </button>
-                        <div class="notification-panel" id="notificationPanel">
-                            <div class="notification-header">
-                                <h3>Notifications</h3>
-                                <button class="mark-read">Mark all as read</button>
+                    
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                    
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header">
+                            <h3>Notifications</h3>
+                            <div class="notification-actions">
+                                <a href="#" id="markAllRead">Mark all as read</a>
                             </div>
-                            <div class="notification-list" id="notificationList">
-                                <div class="notification-item">
-                                    <i class="fas fa-exclamation-circle warning"></i>
-                                    <div class="notification-content">
-                                        <p>You've exceeded your food budget by 8%</p>
-                                        <span>2 hours ago</span>
-                                    </div>
+                        </div>
+                        <div class="notification-body">
+                            <div class="notification-item">
+                                <div class="notification-icon notification-warning">
+                                    <i class="fas fa-exclamation-circle"></i>
                                 </div>
-                                <div class="notification-item">
-                                    <i class="fas fa-check-circle success"></i>
-                                    <div class="notification-content">
-                                        <p>Salary received: $4,500</p>
-                                        <span>Yesterday</span>
-                                    </div>
-                                </div>
-                                <div class="notification-item">
-                                    <i class="fas fa-info-circle info"></i>
-                                    <div class="notification-content">
-                                        <p>Utility bill due in 3 days</p>
-                                        <span>2 days ago</span>
-                                    </div>
+                                <div class="notification-content">
+                                    <h4>Budget Alert</h4>
+                                    <p>You've exceeded your food budget by 8%</p>
+                                    <span class="notification-time">2 hours ago</span>
                                 </div>
                             </div>
-                            <a href="#" class="view-all">View All</a>
+                            <div class="notification-item">
+                                <div class="notification-icon notification-success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <h4>Income Received</h4>
+                                    <p>Salary received: $4,500</p>
+                                    <span class="notification-time">Yesterday</span>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-icon notification-info">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <h4>Bill Reminder</h4>
+                                    <p>Utility bill due in 3 days</p>
+                                    <span class="notification-time">2 days ago</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="user-menu">
-                        <button class="user-menu-btn" id="userDropdown">
-                            <img src="https://ui-avatars.com/api/?name=User&background=4A6FA5&color=fff" alt="User Avatar" id="headerUserAvatar">
-                            <span id="headerUserName">User</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="user-menu-dropdown" id="userMenu">
-                            <ul>
-                                <li><a href="#profile"><i class="fas fa-user"></i> Profile</a></li>
-                                <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
-                                <li><a href="#" id="headerLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                            </ul>
+                    
+                    <button class="user-menu-btn" id="userMenuBtn">
+                        <div class="user-info">
+                            <img src="https://ui-avatars.com/api/?name=User&background=4A6FA5&color=fff" class="user-avatar" id="headerUserAvatar" alt="User Avatar">
+                            <span class="user-name" id="headerUserName">User</span>
                         </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-dropdown-header">
+                            <h3>My Account</h3>
+                        </div>
+                        <ul class="user-dropdown-menu">
+                            <li><a href="#profile"><i class="fas fa-user"></i> Profile</a></li>
+                            <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li><a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
                     </div>
                 </div>
-            </header>
+            </nav>
             
             <!-- Dashboard Sections -->
-            <div class="dashboard-sections">
+            <div class="dashboard-content">
                 <!-- Overview Section -->
                 <section id="overview" class="dashboard-section active">
                     <div class="section-header">
@@ -164,43 +182,43 @@
                     
                     <div class="stats-cards">
                         <div class="stat-card" id="totalBalance">
-                            <div class="stat-icon">
+                            <div class="stat-icon balance">
                                 <i class="fas fa-wallet"></i>
                             </div>
                             <div class="stat-details">
                                 <h3>Total Balance</h3>
                                 <p class="stat-value">$0.00</p>
-                                <p class="stat-change positive">0% from last period</p>
+                                <p class="stat-change positive"><i class="fas fa-arrow-up"></i> 0% from last period</p>
                             </div>
                         </div>
                         <div class="stat-card" id="totalIncome">
-                            <div class="stat-icon">
+                            <div class="stat-icon income">
                                 <i class="fas fa-arrow-down"></i>
                             </div>
                             <div class="stat-details">
                                 <h3>Income</h3>
                                 <p class="stat-value">$0.00</p>
-                                <p class="stat-change positive">0% from last period</p>
+                                <p class="stat-change positive"><i class="fas fa-arrow-up"></i> 0% from last period</p>
                             </div>
                         </div>
                         <div class="stat-card" id="totalExpenses">
-                            <div class="stat-icon">
+                            <div class="stat-icon expense">
                                 <i class="fas fa-arrow-up"></i>
                             </div>
                             <div class="stat-details">
                                 <h3>Expenses</h3>
                                 <p class="stat-value">$0.00</p>
-                                <p class="stat-change negative">0% from last period</p>
+                                <p class="stat-change negative"><i class="fas fa-arrow-down"></i> 0% from last period</p>
                             </div>
                         </div>
                         <div class="stat-card" id="savings">
-                            <div class="stat-icon">
+                            <div class="stat-icon savings">
                                 <i class="fas fa-piggy-bank"></i>
                             </div>
                             <div class="stat-details">
                                 <h3>Savings</h3>
                                 <p class="stat-value">$0.00</p>
-                                <p class="stat-change positive">0% from last period</p>
+                                <p class="stat-change positive"><i class="fas fa-arrow-up"></i> 0% from last period</p>
                             </div>
                         </div>
                     </div>
@@ -210,7 +228,12 @@
                             <div class="card-header">
                                 <h3>Income vs Expenses</h3>
                                 <div class="card-actions">
-                                    <button class="btn-card-action"><i class="fas fa-ellipsis-v"></i></button>
+                                    <button class="btn-card-action" aria-label="Download chart">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-card-action" aria-label="More options">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div class="chart-container">
@@ -222,14 +245,19 @@
                             <div class="card-header">
                                 <h3>Expense Breakdown</h3>
                                 <div class="card-actions">
-                                    <button class="btn-card-action"><i class="fas fa-ellipsis-v"></i></button>
+                                    <button class="btn-card-action" aria-label="Download chart">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-card-action" aria-label="More options">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div class="chart-container">
                                 <canvas id="expenseBreakdownChart"></canvas>
                             </div>
-                            <div class="expense-breakdown-list" id="expenseBreakdownList">
-                                <!-- Will be populated by JS -->
+                            <div class="expense-categories" id="expenseCategories">
+                                <!-- Categories will be populated by JavaScript -->
                             </div>
                         </div>
                     </div>
@@ -239,14 +267,19 @@
                             <div class="card-header">
                                 <h3>Budget Status</h3>
                                 <div class="card-actions">
-                                    <button class="btn-card-action"><i class="fas fa-ellipsis-v"></i></button>
+                                    <button class="btn-card-action" aria-label="Download chart">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-card-action" aria-label="More options">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div class="chart-container">
                                 <canvas id="budgetChart"></canvas>
                             </div>
-                            <div class="budget-progress-list" id="budgetProgressList">
-                                <!-- Will be populated by JS -->
+                            <div class="budget-progress" id="budgetProgress">
+                                <!-- Budget progress will be populated by JavaScript -->
                             </div>
                         </div>
                         
@@ -254,11 +287,15 @@
                             <div class="card-header">
                                 <h3>Recent Transactions</h3>
                                 <div class="card-actions">
-                                    <a href="#" class="view-all">View All</a>
+                                    <a href="#transactions" class="view-all">View All</a>
                                 </div>
                             </div>
-                            <div class="transactions-list" id="recentTransactionsList">
-                                <!-- Will be populated by JS -->
+                            <div class="recent-transactions" id="recentTransactions">
+                                <!-- Recent transactions will be populated by JavaScript -->
+                                <div class="empty-state">
+                                    <i class="fas fa-receipt"></i>
+                                    <p>No recent transactions yet</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -269,17 +306,21 @@
                     <div class="section-header">
                         <h2>Expenses</h2>
                     </div>
-                    <div class="section-content">
-                        <p>Expenses content will go here.</p>
+                    <!-- Expenses content will go here -->
+                    <div class="empty-state">
+                        <i class="fas fa-chart-pie"></i>
+                        <p>Expenses section coming soon</p>
                     </div>
                 </section>
                 
+                <!-- Other sections (budget, investments, bills, settings) -->
                 <section id="budget" class="dashboard-section">
                     <div class="section-header">
                         <h2>Budget</h2>
                     </div>
-                    <div class="section-content">
-                        <p>Budget content will go here.</p>
+                    <div class="empty-state">
+                        <i class="fas fa-piggy-bank"></i>
+                        <p>Budget section coming soon</p>
                     </div>
                 </section>
                 
@@ -287,8 +328,9 @@
                     <div class="section-header">
                         <h2>Investments</h2>
                     </div>
-                    <div class="section-content">
-                        <p>Investments content will go here.</p>
+                    <div class="empty-state">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Investments section coming soon</p>
                     </div>
                 </section>
                 
@@ -296,8 +338,9 @@
                     <div class="section-header">
                         <h2>Bills</h2>
                     </div>
-                    <div class="section-content">
-                        <p>Bills content will go here.</p>
+                    <div class="empty-state">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <p>Bills section coming soon</p>
                     </div>
                 </section>
                 
@@ -305,18 +348,19 @@
                     <div class="section-header">
                         <h2>Settings</h2>
                     </div>
-                    <div class="section-content">
-                        <p>Settings content will go here.</p>
+                    <div class="empty-state">
+                        <i class="fas fa-cog"></i>
+                        <p>Settings section coming soon</p>
                     </div>
                 </section>
             </div>
         </main>
     </div>
     
-    <!-- Notification container -->
+    <!-- Notification container for toast notifications -->
     <div class="notification-container" id="notificationContainer"></div>
     
-    <!-- Load JavaScript files -->
+    <!-- JavaScript Files -->
     <script src="js/storage.js"></script>
     <script src="js/dashboard.js"></script>
 </body>

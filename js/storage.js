@@ -140,9 +140,53 @@ class StorageUtil {
         };
         
         // Create demo data
-        this.createDemoData(demoUser.id);
+        this.initializeDemoData(demoUser.id);
         
         return demoUser;
+    }
+
+    /**
+     * Get user data including transactions, budgets, and investments
+     * @param {string} userId - The user ID to get data for
+     * @returns {Object} - User data object with transactions, budgets, and investments
+     */
+    static getUserData(userId) {
+        if (!userId) return null;
+        
+        return {
+            transactions: this.getItem(`transactions_${userId}`) || [],
+            budgets: this.getItem(`budget_${userId}`) || [],
+            investments: this.getItem(`investments_${userId}`) || []
+        };
+    }
+
+    /**
+     * Initialize demo data for the current user
+     * @param {string} userId - The user ID to create demo data for
+     */
+    static initializeDemoData(userId) {
+        console.log("Initializing demo data for user:", userId);
+        
+        // Create demo data if it doesn't exist
+        if (!this.getItem(`transactions_${userId}`)) {
+            // Create demo transactions
+            const transactions = this.generateDemoTransactions();
+            this.setItem(`transactions_${userId}`, transactions);
+        }
+        
+        if (!this.getItem(`budget_${userId}`)) {
+            // Create demo budget
+            const budget = this.generateDemoBudget();
+            this.setItem(`budget_${userId}`, budget);
+        }
+        
+        if (!this.getItem(`investments_${userId}`)) {
+            // Create demo investments
+            const investments = this.generateDemoInvestments();
+            this.setItem(`investments_${userId}`, investments);
+        }
+        
+        console.log("Demo data initialized successfully");
     }
 
     /**
@@ -250,21 +294,18 @@ class StorageUtil {
 
     /**
      * Generate demo budget
-     * @returns {Object} - A demo budget object
+     * @returns {Array} - An array of budget items
      */
     static generateDemoBudget() {
-        return {
-            total: 4000,
-            categories: [
-                { category: 'Food', amount: 800, spent: 650 },
-                { category: 'Housing', amount: 1500, spent: 1500 },
-                { category: 'Transportation', amount: 400, spent: 350 },
-                { category: 'Entertainment', amount: 300, spent: 275 },
-                { category: 'Utilities', amount: 500, spent: 480 },
-                { category: 'Healthcare', amount: 200, spent: 150 },
-                { category: 'Shopping', amount: 300, spent: 400 }
-            ]
-        };
+        return [
+            { id: 'budget-1', category: 'Food', amount: 800 },
+            { id: 'budget-2', category: 'Housing', amount: 1500 },
+            { id: 'budget-3', category: 'Transportation', amount: 400 },
+            { id: 'budget-4', category: 'Entertainment', amount: 300 },
+            { id: 'budget-5', category: 'Utilities', amount: 500 },
+            { id: 'budget-6', category: 'Healthcare', amount: 200 },
+            { id: 'budget-7', category: 'Shopping', amount: 300 }
+        ];
     }
 
     /**
@@ -339,3 +380,25 @@ if (!StorageUtil.getCurrentUser()) {
     const demoUser = StorageUtil.generateDemoUser();
     StorageUtil.setCurrentUser(demoUser);
 }
+
+// Initialize storage or check for user when the script loads
+(function() {
+    // Check if a user is already logged in
+    let currentUser = StorageUtil.getCurrentUser();
+    
+    if (!currentUser) {
+        console.log("No logged-in user found in storage.js init. Consider creating a demo user.");
+    } else {
+        console.log("Existing user found in storage.js init:", currentUser.name);
+    }
+    
+    // Optional: Initialize theme from storage
+    const savedTheme = StorageUtil.getTheme();
+    document.body.setAttribute('data-theme', savedTheme);
+    // Update theme toggle icon if needed (logic might be better in dashboard.js)
+    const themeToggleIcon = document.getElementById('themeToggle')?.querySelector('i');
+    if (themeToggleIcon) {
+        themeToggleIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+    
+})();
